@@ -1,0 +1,2068 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#171317">
+<meta name="description" content="WEB OF US — Story Beyond the Web. A little universe of memories.">
+<title>WEB OF US · Story Beyond the Web</title>
+
+<style>
+:root {
+  --black: #171317;
+  --black-soft: #201820;
+  --burgundy: #641d35;
+  --wine: #963d5d;
+  --pink: #d99bb9;
+  --pink-light: #f0c9dc;
+  --teal: #176b78;
+  --teal-light: #55b7c3;
+  --silver: #b9c2cc;
+  --cream: #f5eaf0;
+  --muted: #aa9da5;
+  --line: rgba(217,155,185,.17);
+  --serif: Georgia, "Times New Roman", serif;
+  --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: "Cascadia Code", Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 75px;
+  background: var(--black);
+}
+
+body {
+  margin: 0;
+  color: var(--cream);
+  background:
+    radial-gradient(ellipse at 8% 5%, rgba(100,29,53,.22), transparent 34rem),
+    radial-gradient(ellipse at 92% 44%, rgba(23,107,120,.11), transparent 36rem),
+    var(--black);
+  font-family: var(--sans);
+  overflow-x: hidden;
+}
+
+button, a { font: inherit; }
+button { color: inherit; }
+a { color: inherit; text-decoration: none; }
+
+::selection {
+  background: rgba(217,155,185,.3);
+  color: white;
+}
+
+.site-shell {
+  position: relative;
+  isolation: isolate;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .8s ease;
+}
+
+.site-shell.unlocked {
+  visibility: visible;
+  opacity: 1;
+}
+
+.site-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .09;
+  background-image: radial-gradient(rgba(255,255,255,.6) .5px, transparent .5px);
+  background-size: 5px 5px;
+}
+
+/* ENTRY GATE */
+
+.entry-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 25px;
+  background:
+    radial-gradient(ellipse at 12% 20%, rgba(100,29,53,.3), transparent 38%),
+    radial-gradient(ellipse at 88% 80%, rgba(23,107,120,.2), transparent 40%),
+    #171317;
+  transition: opacity .8s ease, visibility .8s ease;
+}
+
+.entry-gate.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.gate-content {
+  width: min(480px, 100%);
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.gate-eyebrow {
+  color: var(--silver);
+  font: 10px var(--mono);
+  letter-spacing: .28em;
+  text-transform: uppercase;
+}
+
+.gate-title {
+  margin: 28px 0 14px;
+  color: var(--pink-light);
+  font: clamp(2.2rem, 8vw, 4rem)/1.1 var(--serif);
+  font-weight: 400;
+  letter-spacing: -.04em;
+}
+
+.gate-question {
+  margin: 0 auto 32px;
+  max-width: 360px;
+  color: var(--silver);
+  font: clamp(1.1rem, 4vw, 1.45rem)/1.6 var(--serif);
+}
+
+.gate-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.gate-input {
+  width: min(340px, 100%);
+  padding: 15px 18px;
+  border: 1px solid rgba(217,155,185,.3);
+  border-radius: 999px;
+  outline: none;
+  background: rgba(33,24,32,.75);
+  color: var(--pink-light);
+  text-align: center;
+  font: 12px var(--mono);
+  letter-spacing: .08em;
+  transition: border-color .25s, box-shadow .25s;
+}
+
+.gate-input::placeholder {
+  color: rgba(170,157,165,.65);
+}
+
+.gate-input:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 24px rgba(217,155,185,.12);
+}
+
+.gate-submit {
+  padding: 14px 23px;
+  border: 1px solid rgba(217,155,185,.4);
+  border-radius: 999px;
+  background: rgba(100,29,53,.25);
+  color: var(--pink-light);
+  font: 10px var(--mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .3s ease;
+}
+
+.gate-submit:hover {
+  background: rgba(150,61,93,.3);
+  border-color: var(--pink);
+  transform: translateY(-2px);
+}
+
+.gate-submit:disabled,
+.gate-input:disabled {
+  opacity: .6;
+  cursor: default;
+}
+
+.gate-message {
+  min-height: 22px;
+  margin: 8px 0 0;
+  color: var(--silver);
+  font: 10px var(--mono);
+  letter-spacing: .08em;
+}
+
+.gate-message.error {
+  color: var(--pink);
+}
+
+.gate-message.success {
+  color: var(--teal-light);
+}
+
+.gate-footer {
+  margin-top: 42px;
+  color: rgba(185,194,204,.4);
+  font: 9px var(--mono);
+  letter-spacing: .2em;
+}
+
+.gate-web {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.gate-web path {
+  fill: none;
+  stroke-width: 1.2;
+  opacity: .35;
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  transition: stroke-dashoffset 1.5s ease;
+}
+
+.gate-web .gate-pink { stroke: var(--pink); }
+.gate-web .gate-teal { stroke: var(--teal-light); }
+
+.entry-gate.success .gate-web path {
+  stroke-dashoffset: 0;
+}
+
+.entry-gate.success .gate-title {
+  text-shadow: 0 0 30px rgba(217,155,185,.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entry-gate,
+  .entry-gate *,
+  .site-shell {
+    transition-duration: .01ms !important;
+  }
+
+  .gate-web path {
+    stroke-dashoffset: 0;
+  }
+}
+
+.topbar {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 30;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 23px clamp(20px, 5vw, 70px);
+  font: 10px var(--mono);
+  letter-spacing: .2em;
+  color: var(--silver);
+}
+
+.brand {
+  color: var(--pink-light);
+  font-size: 12px;
+  letter-spacing: .22em;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(185,194,204,.65);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--teal-light);
+  box-shadow: 0 0 12px var(--teal-light);
+}
+
+/* HERO */
+
+.hero {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 115px 22px 85px;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: min(72vw, 680px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(217,155,185,.09);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 55px rgba(217,155,185,.018),
+    0 0 0 110px rgba(85,183,195,.015);
+  z-index: -1;
+}
+
+.hero-content {
+  width: min(780px, 100%);
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.eyebrow {
+  color: var(--silver);
+  font: 10px var(--mono);
+  letter-spacing: .28em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 25px 0 13px;
+  color: var(--pink-light);
+  font: clamp(3.5rem, 11vw, 8rem)/.95 var(--serif);
+  font-weight: 400;
+  letter-spacing: -.065em;
+  text-shadow: 0 0 45px rgba(217,155,185,.12);
+}
+
+.hero-subtitle {
+  color: var(--silver);
+  font: 11px var(--mono);
+  letter-spacing: .32em;
+  text-transform: uppercase;
+}
+
+.hero-copy {
+  max-width: 430px;
+  margin: 27px auto 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.enter-button {
+  margin-top: 36px;
+  padding: 14px 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  border: 1px solid rgba(217,155,185,.38);
+  border-radius: 999px;
+  background: rgba(100,29,53,.15);
+  color: var(--pink-light);
+  font: 10px var(--mono);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .3s ease;
+}
+
+.enter-button:hover {
+  background: rgba(150,61,93,.25);
+  border-color: var(--pink);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(217,155,185,.1);
+}
+
+.enter-button span { font-size: 16px; }
+
+.hero-web {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-web path,
+.finale-web path {
+  fill: none;
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+
+.pink-stroke { stroke: var(--pink); }
+.teal-stroke { stroke: var(--teal-light); }
+
+.hero-web .fine {
+  opacity: .28;
+  stroke-width: .7;
+}
+
+.hero-corner {
+  position: absolute;
+  bottom: 25px;
+  color: rgba(185,194,204,.42);
+  font: 9px var(--mono);
+  letter-spacing: .2em;
+}
+
+/* NAVIGATION */
+
+.chapter-nav {
+  position: sticky;
+  top: 0;
+  z-index: 25;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px 12px;
+  background: rgba(23,19,23,.88);
+  backdrop-filter: blur(18px);
+  border-block: 1px solid rgba(217,155,185,.09);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.chapter-nav::-webkit-scrollbar { display: none; }
+
+.chapter-nav a {
+  flex: 0 0 auto;
+  padding: 9px 11px;
+  border-radius: 30px;
+  color: #968891;
+  font: 9px var(--mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  transition: .25s ease;
+}
+
+.chapter-nav a:hover,
+.chapter-nav a.active {
+  color: var(--pink-light);
+  background: rgba(217,155,185,.09);
+}
+
+.chapter-nav a.active {
+  box-shadow: inset 0 -1px var(--pink);
+}
+
+/* GENERAL CHAPTERS */
+
+main {
+  width: min(100%, 1000px);
+  margin: 0 auto;
+  padding: 0 24px 70px;
+}
+
+.chapter {
+  position: relative;
+  padding: clamp(85px, 13vw, 145px) 0;
+  border-bottom: 1px solid rgba(217,155,185,.11);
+  scroll-margin-top: 65px;
+}
+
+.chapter-head {
+  max-width: 700px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.chapter-number {
+  color: var(--teal-light);
+  font: 10px var(--mono);
+  letter-spacing: .23em;
+  text-transform: uppercase;
+}
+
+.chapter h2 {
+  margin: 16px 0 14px;
+  color: var(--pink-light);
+  font: clamp(2.4rem, 6vw, 4.8rem)/1.05 var(--serif);
+  font-weight: 400;
+  letter-spacing: -.04em;
+}
+
+.chapter-intro {
+  max-width: 580px;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.web-divider {
+  display: block;
+  width: min(300px, 80%);
+  height: 38px;
+  margin: 23px auto 0;
+  opacity: .7;
+}
+
+.web-divider path {
+  fill: none;
+  stroke: var(--pink);
+  stroke-width: 1;
+}
+
+.copy-block {
+  max-width: 680px;
+  margin: auto;
+  color: #e1d5dc;
+  font-size: 14px;
+  line-height: 2;
+}
+
+.copy-block p { margin: 0 0 19px; }
+
+.accent { color: var(--pink-light); }
+
+/* ORIGIN */
+
+.origin-date {
+  color: var(--silver);
+  text-align: center;
+  font: 10px var(--mono);
+  letter-spacing: .2em;
+}
+
+.origin-line {
+  margin: 20px 0 36px;
+  color: var(--pink-light);
+  text-align: center;
+  font: clamp(1.3rem, 3vw, 1.8rem) var(--serif);
+}
+
+.days-count {
+  margin-top: 38px;
+  text-align: center;
+}
+
+.days-count strong {
+  display: block;
+  color: var(--pink);
+  font: clamp(4.5rem, 14vw, 7.5rem)/1 var(--serif);
+  font-weight: 400;
+  letter-spacing: -.07em;
+}
+
+.days-count span {
+  display: block;
+  margin-top: 12px;
+  color: var(--silver);
+  font: 10px var(--mono);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+/* ADMIRATION */
+
+.admire-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 12px;
+}
+
+.admire-item {
+  min-height: 145px;
+  padding: 23px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(217,155,185,.14);
+  border-radius: 3px 20px 3px 20px;
+  background: linear-gradient(135deg, rgba(100,29,53,.2), rgba(33,24,32,.28));
+  transition: border-color .3s, transform .3s, background .3s;
+}
+
+.admire-item:nth-child(even) {
+  border-color: rgba(85,183,195,.16);
+  background: linear-gradient(135deg, rgba(23,107,120,.13), rgba(33,24,32,.28));
+}
+
+.admire-item:hover {
+  transform: translateY(-4px);
+  border-color: rgba(217,155,185,.4);
+}
+
+.admire-item .index {
+  color: var(--teal-light);
+  font: 9px var(--mono);
+  letter-spacing: .18em;
+}
+
+.admire-item h3 {
+  margin: 15px 0 8px;
+  color: var(--pink-light);
+  font: 1.3rem var(--serif);
+  font-weight: 400;
+}
+
+.admire-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.admire-footnote {
+  margin-top: 28px;
+  text-align: center;
+}
+
+/* NICKNAMES */
+
+.nickname-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.nickname-panel {
+  padding: 26px;
+  border: 1px solid rgba(217,155,185,.17);
+  background: rgba(33,24,32,.36);
+  position: relative;
+}
+
+.nickname-panel:nth-child(2) {
+  border-color: rgba(85,183,195,.19);
+}
+
+.nickname-panel h3 {
+  margin: 0;
+  color: var(--pink-light);
+  font: clamp(2rem, 4vw, 3rem) var(--serif);
+  font-weight: 400;
+}
+
+.nickname-panel:nth-child(2) h3 { color: var(--teal-light); }
+
+.nickname-panel .sub {
+  margin: 8px 0 22px;
+  color: var(--muted);
+  font: 9px var(--mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.nickname-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.nickname {
+  padding: 9px 12px;
+  border: 1px solid rgba(217,155,185,.2);
+  border-radius: 999px;
+  background: rgba(100,29,53,.13);
+  color: #e7dce2;
+  font-size: 11px;
+  cursor: pointer;
+  transition: .25s ease;
+}
+
+.nickname-panel:nth-child(2) .nickname {
+  border-color: rgba(85,183,195,.22);
+  background: rgba(23,107,120,.1);
+}
+
+.nickname:hover,
+.nickname.active {
+  color: white;
+  border-color: var(--pink);
+  background: rgba(150,61,93,.25);
+  transform: translateY(-2px);
+}
+
+.nickname-panel:nth-child(2) .nickname:hover,
+.nickname-panel:nth-child(2) .nickname.active {
+  border-color: var(--teal-light);
+  background: rgba(23,107,120,.23);
+}
+
+.nickname:focus-visible,
+.enter-button:focus-visible,
+.envelope-button:focus-visible,
+.moment-trigger:focus-visible {
+  outline: 2px solid var(--pink-light);
+  outline-offset: 4px;
+}
+
+.nickname-note {
+  min-height: 40px;
+  margin: 21px 0 0;
+  padding-top: 13px;
+  border-top: 1px solid var(--line);
+  color: var(--silver);
+  font: 11px/1.7 var(--mono);
+}
+
+/* MOMENTS */
+
+.moments {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.moment {
+  position: relative;
+  padding: 25px;
+  min-height: 210px;
+  border-left: 2px solid var(--pink);
+  background: linear-gradient(120deg, rgba(100,29,53,.17), rgba(33,24,32,.2));
+}
+
+.moment:nth-child(2) {
+  border-color: var(--teal-light);
+  background: linear-gradient(120deg, rgba(23,107,120,.14), rgba(33,24,32,.2));
+}
+
+.moment small {
+  color: var(--silver);
+  font: 9px var(--mono);
+  letter-spacing: .18em;
+}
+
+.moment h3 {
+  margin: 15px 0 10px;
+  color: var(--pink-light);
+  font: 1.55rem var(--serif);
+  font-weight: 400;
+}
+
+.moment p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.moment-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 17px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--pink-light);
+  font: 10px var(--mono);
+  letter-spacing: .08em;
+  cursor: pointer;
+}
+
+.moment-trigger span { transition: transform .25s; }
+
+.moment-trigger[aria-expanded="true"] span {
+  transform: rotate(45deg);
+}
+
+.moment-detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows .4s ease, opacity .4s ease;
+}
+
+.moment-detail > div { overflow: hidden; }
+
+.moment-detail.open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.moment-detail p {
+  padding-top: 13px;
+  color: var(--silver);
+  border-top: 1px solid var(--line);
+}
+
+.clock-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  color: var(--teal-light);
+  font: 11px var(--mono);
+}
+
+.clock {
+  padding: 8px 11px;
+  border: 1px solid rgba(85,183,195,.3);
+  letter-spacing: .14em;
+}
+
+/* LETTER */
+
+.letter-stage {
+  max-width: 760px;
+  margin: auto;
+  text-align: center;
+}
+
+.envelope-button {
+  width: 180px;
+  height: 135px;
+  margin: 12px auto 20px;
+  display: block;
+  position: relative;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  perspective: 700px;
+  filter: drop-shadow(0 15px 25px rgba(0,0,0,.28));
+  transition: transform .35s ease;
+}
+
+.envelope-button:hover { transform: translateY(-5px); }
+
+.envelope-back {
+  position: absolute;
+  inset: 12px 0 0;
+  background: #592037;
+  border: 1px solid rgba(240,201,220,.3);
+  border-radius: 3px;
+}
+
+.envelope-paper-preview {
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  top: 5px;
+  height: 90px;
+  background: #e9dce2;
+  border-radius: 2px;
+  transition: transform .8s ease;
+}
+
+.envelope-front {
+  position: absolute;
+  inset: 12px 0 0;
+  background: #782d49;
+  clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
+  border: 1px solid rgba(240,201,220,.4);
+}
+
+.envelope-flap {
+  position: absolute;
+  inset: 12px 0 auto;
+  height: 76px;
+  background: #a45170;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+  transition: transform .65s ease;
+  z-index: 3;
+}
+
+.envelope-seal {
+  position: absolute;
+  z-index: 4;
+  top: 57px;
+  left: 50%;
+  width: 31px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: var(--pink-light);
+  color: var(--burgundy);
+  border: 2px solid rgba(100,29,53,.25);
+  font-size: 13px;
+  transition: opacity .3s, transform .3s;
+}
+
+.envelope-button.open .envelope-flap {
+  transform: rotateX(180deg);
+}
+
+.envelope-button.open .envelope-seal {
+  opacity: 0;
+  transform: translateX(-50%) scale(.6);
+}
+
+.envelope-button.open .envelope-paper-preview {
+  transform: translateY(-35px);
+}
+
+.letter-hint {
+  color: var(--silver);
+  font: 9px var(--mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.letter-paper {
+  display: none;
+  position: relative;
+  max-width: 690px;
+  margin: 35px auto 0;
+  padding: clamp(25px, 6vw, 55px);
+  text-align: left;
+  color: #352630;
+  background:
+    radial-gradient(circle at 10% 15%, rgba(255,255,255,.65), transparent 35%),
+    linear-gradient(140deg, #f5eaf0, #e8dce2);
+  border: 1px solid rgba(255,255,255,.5);
+  box-shadow: 0 25px 75px rgba(0,0,0,.28);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.letter-paper::before {
+  content: "";
+  position: absolute;
+  inset: 13px;
+  border: 1px solid rgba(109,41,68,.13);
+  pointer-events: none;
+}
+
+.letter-paper.open { display: block; }
+
+.letter-paper h3 {
+  position: relative;
+  margin: 0 0 28px;
+  color: #6d2944;
+  font: clamp(1.7rem, 4vw, 2.2rem) var(--serif);
+  font-weight: 400;
+}
+
+.letter-paper p {
+  position: relative;
+  margin: 0 0 18px;
+  font-size: 13px;
+  line-height: 2;
+  white-space: normal;
+}
+
+.letter-paper .letter-signoff {
+  margin-top: 28px;
+  color: #6d2944;
+  font: 20px/1.7 var(--serif);
+}
+
+.letter-paper .letter-note {
+  margin-top: 28px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(109,41,68,.16);
+  color: #806d76;
+  font: 9px var(--mono);
+  letter-spacing: .1em;
+}
+
+.close-letter {
+  display: block;
+  margin: 25px auto 0;
+  padding: 10px 17px;
+  border: 1px solid rgba(109,41,68,.3);
+  border-radius: 999px;
+  color: #6d2944;
+  background: transparent;
+  font: 9px var(--mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.close-letter:hover {
+  background: rgba(109,41,68,.08);
+}
+
+/* FINALE */
+
+.finale {
+  min-height: 80vh;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  border-bottom: 0;
+}
+
+.finale-inner {
+  position: relative;
+  z-index: 2;
+  padding: 75px 0;
+}
+
+.finale h2 {
+  margin: 23px 0;
+  color: var(--pink-light);
+  font: clamp(2.7rem, 8vw, 6.5rem)/1.05 var(--serif);
+  font-weight: 400;
+  letter-spacing: -.05em;
+}
+
+.finale .second-line {
+  margin: 23px 0 0;
+  color: var(--silver);
+  font: clamp(1.05rem, 3vw, 1.7rem) var(--serif);
+}
+
+.finale-web {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: .7;
+  pointer-events: none;
+}
+
+footer {
+  padding: 25px 18px 42px;
+  text-align: center;
+  color: rgba(185,194,204,.4);
+  font: 9px var(--mono);
+  letter-spacing: .2em;
+}
+
+/* REVEALS AND SMALL EFFECTS */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(25px);
+}
+
+.anime-ready .reveal {
+  transition: none !important;
+}
+
+.anime-ready .reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.nickname-note,
+.moment-detail {
+  will-change: opacity;
+}
+
+.toast {
+  position: fixed;
+  z-index: 50;
+  left: 50%;
+  bottom: 22px;
+  padding: 10px 16px;
+  transform: translate(-50%, 15px);
+  opacity: 0;
+  pointer-events: none;
+  border: 1px solid var(--line);
+  background: rgba(23,19,23,.95);
+  color: var(--pink-light);
+  font: 10px var(--mono);
+  transition: .25s;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 680px) {
+  .topbar { padding: 18px; }
+  .status { display: none; }
+
+  .chapter-nav { justify-content: flex-start; }
+
+  main { padding-inline: 18px; }
+
+  .chapter { padding: 82px 0; }
+
+  .admire-grid,
+  .nickname-columns,
+  .moments {
+    grid-template-columns: 1fr;
+  }
+
+  .admire-item { min-height: 125px; }
+
+  .nickname-panel { padding: 22px; }
+
+  .copy-block { font-size: 13px; }
+
+  .hero-copy { font-size: 12px; }
+
+  .letter-paper { padding: 28px 23px; }
+
+  .letter-paper p { font-size: 12px; }
+}
+
+@media (max-width: 380px) {
+  .chapter-nav a {
+    padding-inline: 9px;
+    font-size: 8px;
+  }
+
+  .nickname { font-size: 10px; }
+
+  .hero h1 { font-size: 3.1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ENTRY GATE -->
+
+<section class="entry-gate" id="entryGate">
+  <svg class="gate-web" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
+    <path class="gate-pink" d="M-30 620 C180 570 260 410 470 390 S760 320 1240 90"/>
+    <path class="gate-pink" d="M470 390 L300 210 M470 390 L530 150 M470 390 L690 520 M470 390 L260 570"/>
+    <path class="gate-teal" d="M1230 650 C1010 590 930 430 730 410 S440 300 -30 120"/>
+    <path class="gate-teal" d="M730 410 L900 210 M730 410 L670 150 M730 410 L510 540 M730 410 L940 580"/>
+  </svg>
+
+  <div class="gate-content">
+    <div class="gate-eyebrow">A LITTLE UNIVERSE · JUST FOR US</div>
+
+    <h1 class="gate-title">Before you enter...</h1>
+
+    <p class="gate-question">
+      Who loves you the most in this world?
+    </p>
+
+    <form class="gate-form" id="gateForm">
+      <input
+        class="gate-input"
+        id="gateAnswer"
+        type="text"
+        placeholder="Your answer..."
+        autocomplete="off"
+        aria-label="Your answer"
+        required
+      >
+
+      <button class="gate-submit" id="gateSubmit" type="submit">
+        Unlock our universe ♡
+      </button>
+    </form>
+
+    <p class="gate-message" id="gateMessage" role="status" aria-live="polite"></p>
+
+    <div class="gate-footer">WEB OF US · STORY BEYOND THE WEB</div>
+  </div>
+</section>
+
+<div class="site-shell" id="siteShell">
+
+<header class="topbar">
+  <a class="brand" href="#home">WEB OF US</a>
+  <div class="status">
+    <span class="status-dot"></span>
+    A STORY BEYOND THE WEB
+  </div>
+</header>
+
+<!-- HERO -->
+
+<section class="hero" id="home" aria-label="Opening scene">
+
+  <svg class="hero-web" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
+    <path class="pink-stroke web-draw" d="M-30 620 C180 570 260 410 470 390 S760 320 1240 90"/>
+    <path class="pink-stroke fine web-draw" d="M470 390 L300 210 M470 390 L530 150 M470 390 L690 520 M470 390 L260 570 M470 390 L650 680"/>
+    <path class="teal-stroke web-draw" d="M1230 650 C1010 590 930 430 730 410 S440 300 -30 120"/>
+    <path class="teal-stroke fine web-draw" d="M730 410 L900 210 M730 410 L670 150 M730 410 L510 540 M730 410 L940 580 M730 410 L560 700"/>
+  </svg>
+
+  <div class="hero-content">
+    <div class="eyebrow reveal">TWO WORLDS · ONE STORY</div>
+    <h1 class="reveal" id="heroTitle">WEB OF US</h1>
+    <div class="hero-subtitle reveal">STORY BEYOND THE WEB</div>
+    <p class="hero-copy reveal">
+      A little universe built from memories, small details,
+      impossible-to-explain feelings, and two people who found
+      a story of their own.
+    </p>
+    <button class="enter-button reveal" id="enterStory">
+      Enter the story <span>↗</span>
+    </button>
+  </div>
+
+  <div class="hero-corner">A PERSONAL MULTIVERSE · 2025—2026</div>
+</section>
+
+<!-- CHAPTER NAVIGATION -->
+
+<nav class="chapter-nav" aria-label="Chapter navigation">
+  <a href="#origin">01 Origin</a>
+  <a href="#superhero">02 Superhero</a>
+  <a href="#admire">03 Admire</a>
+  <a href="#names">04 Names</a>
+  <a href="#moments">05 Moments</a>
+  <a href="#letter">06 Letter</a>
+  <a href="#finale">07 Finale</a>
+</nav>
+
+<main>
+
+<!-- CHAPTER 01 -->
+
+<section class="chapter" id="origin">
+  <div class="chapter-head reveal">
+    <div class="chapter-number">CHAPTER 01 · THE ORIGIN STORY</div>
+    <h2>The day we met online.</h2>
+    <svg class="web-divider" viewBox="0 0 340 42" aria-hidden="true">
+      <path d="M0 35 Q85 5 170 21 T340 5 M170 21 L125 2 M170 21 L205 40 M170 21 L170 0"/>
+    </svg>
+  </div>
+
+  <div class="origin-date reveal">18 JUNE 2025</div>
+  <div class="origin-line reveal">THE STORY BEGINS</div>
+
+  <div class="days-count reveal">
+    <strong>509</strong>
+    <span>Since we have known each other.</span>
+  </div>
+</section>
+
+<!-- CHAPTER 02 -->
+
+<section class="chapter" id="superhero">
+  <div class="chapter-head reveal">
+    <div class="chapter-number">CHAPTER 02 · THE PERSON BEHIND THE MASK</div>
+    <h2>My Superhero.</h2>
+    <p class="chapter-intro">
+      Not because of a suit or superpowers, but because of the person you are.
+    </p>
+    <svg class="web-divider" viewBox="0 0 340 42" aria-hidden="true">
+      <path d="M0 35 Q85 5 170 21 T340 5 M170 21 L125 2 M170 21 L205 40 M170 21 L170 0"/>
+    </svg>
+  </div>
+
+  <div class="copy-block reveal">
+    <p>
+      You are a caring person, someone who remembers the little things,
+      appreciates the things that make me who I am, and keeps working
+      towards the dream you hold so close to your heart.
+    </p>
+
+    <p>
+      Your dedication, your ambitions, and the way you keep looking
+      forward to your future are some of the things I admire about you.
+    </p>
+
+    <p>
+      Your dream of joining the <span class="accent">Army</span>
+      means so much to you, and I genuinely hope you get there.
+      The determination you have towards your goals is one of the
+      things that makes you special.
+    </p>
+
+    <p>
+      You make me feel important, you listen, and you make even
+      the smallest things feel noticed. That says a lot about the
+      person you are.
+    </p>
+  </div>
+</section>
+
+<!-- CHAPTER 03 -->
+
+<section class="chapter" id="admire">
+  <div class="chapter-head reveal">
+    <div class="chapter-number">CHAPTER 03 · THE LITTLE THINGS</div>
+    <h2>Things I Admire About You</h2>
+    <p class="chapter-intro">
+      Some things may look small from the outside.
+      I notice them, and they mean a lot to me.
+    </p>
+  </div>
+
+  <div class="admire-grid">
+    <article class="admire-item reveal">
+      <span class="index">01 / MEMORY</span>
+      <h3>You Remember Everything</h3>
+      <p>You remember even the smallest details about me.</p>
+    </article>
+
+    <article class="admire-item reveal">
+      <span class="index">02 / APPRECIATION</span>
+      <h3>You Appreciate My World</h3>
+      <p>You appreciate my hobbies, interests and the things I enjoy.</p>
+    </article>
+
+    <article class="admire-item reveal">
+      <span class="index">03 / UNDERSTANDING</span>
+      <h3>You Understand Me</h3>
+      <p>You listen to me and make an effort to understand me.</p>
+    </article>
+
+    <article class="admire-item reveal">
+      <span class="index">04 / IMPORTANCE</span>
+      <h3>You Make Me Feel Important</h3>
+      <p>You make me feel valued through the little things you do.</p>
+    </article>
+
+    <article class="admire-item reveal">
+      <span class="index">05 / DREAMS</span>
+      <h3>Our Little Dream Visits</h3>
+      <p>We somehow find each other in our dreams too.</p>
+    </article>
+
+    <article class="admire-item reveal">
+      <span class="index">06 / AMBITION</span>
+      <h3>Your Passion</h3>
+      <p>Your dedication towards the things you care about.</p>
+    </article>
+  </div>
+
+  <p class="chapter-intro admire-footnote reveal">
+    And I notice the little things about you too.
+  </p>
+</section>
+
+<!-- CHAPTER 04 -->
+
+<section class="chapter" id="names">
+  <div class="chapter-head reveal">
+    <div class="chapter-number">CHAPTER 04 · THE NAMES WE KEEP</div>
+    <h2>Our Little Dictionary</h2>
+    <p class="chapter-intro">
+      Different names, different moods, and a whole lot of meaning
+      known only to us.
+    </p>
+  </div>
+
+  <div class="nickname-columns">
+
+    <div class="nickname-panel reveal">
+      <h3>Gwen</h3>
+      <div class="sub">What I call you.</div>
+
+      <div class="nickname-list" id="myNames">
+        <button class="nickname" data-note="A name with its own little story.">Meesnay 🥹</button>
+        <button class="nickname" data-note="Mister Charisma. The title says enough.">Mister Charisma ✨</button>
+        <button class="nickname" data-note="My Spider-Man.">spiderman 🕸️</button>
+        <button class="nickname" data-note="A little softness in the middle of everything.">white rose 🤍</button>
+        <button class="nickname" data-note="The legendary stupid admi. 😂">stupid admi 😂</button>
+        <button class="nickname" data-note="Welay admi, reporting for duty.">welay admi 😭</button>
+        <button class="nickname" data-note="A favourite little nickname.">my janu 🌷</button>
+        <button class="nickname" data-note="Cadet Awais. Future goals, full focus.">Cadet Awais 🫡</button>
+      </div>
+
+      <p class="nickname-note" aria-live="polite">
+        Tap a nickname to reveal its little note.
+      </p>
+    </div>
+
+    <div class="nickname-panel reveal">
+      <h3>Spider-Man</h3>
+      <div class="sub">What you call me.</div>
+
+      <div class="nickname-list" id="hisNames">
+        <button class="nickname" data-note="Best Friend. A title that holds a lot.">Best Friend 🤍</button>
+        <button class="nickname" data-note="Your Gwen.">Gwen 🕸️</button>
+        <button class="nickname" data-note="Alien XD. Not from this universe, apparently. 👽">alien 👽</button>
+        <button class="nickname" data-note="Churail T-T. A very affectionate accusation. 😂">churail 😂</button>
+        <button class="nickname" data-note="Bhootni. The spooky chapter of this dictionary.">bhootni 🌙</button>
+        <button class="nickname" data-note="Meri jan.">meri jan 🥹</button>
+        <button class="nickname" data-note="Aunty T-T. Still under investigation.">Aunty 😭</button>
+        <button class="nickname" data-note="Phool. A softer name.">phool 🌸</button>
+        <button class="nickname" data-note="Meri bachi XD.">Meri bachi 🧸</button>
+        <button class="nickname" data-note="Miss bhulaker T-T. The memory department is working on it.">miss bhulaker 🫠</button>
+        <button class="nickname" data-note="Madam. Very official.">madam 👑</button>
+        <button class="nickname" data-note="Sharp Mind Ever. A compliment worth keeping.">sharp mind ever 🧠 </button>
+      </div>
+
+      <p class="nickname-note" aria-live="polite">
+        Tap a nickname to reveal its little note.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- CHAPTER 05 -->
+
+<section class="chapter" id="moments">
+  <div class="chapter-head reveal">
+    <div class="chapter-number">CHAPTER 05 · THE MOMENTS</div>
+    <h2>Little Moments, Big Feelings</h2>
+    <p class="chapter-intro">
+      Not every important memory needs a photograph.
+      Some dates stay with you on their own.
+    </p>
+  </div>
+
+  <div class="moments">
+
+    <article class="moment reveal">
+      <small>18 JUNE 2025</small>
+      <h3>The First Hello</h3>
+      <p>
+        The day an ordinary online conversation became the beginning
+        of a story that kept growing.
+      </p>
+
+      <button class="moment-trigger" aria-expanded="false">
+        Open this memory <span>↗</span>
+      </button>
+
+      <div class="moment-detail">
+        <div>
+          <p>
+            One ordinary day, one conversation, and a beginning
+            neither of us could have planned.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <article class="moment reveal">
+      <small>10 JANUARY 2026</small>
+      <h3>The First “I Love You”</h3>
+      <p>
+        One little sentence, one very unforgettable moment.
+      </p>
+
+      <div class="clock-wrap">
+        <span>TIME</span>
+        <span class="clock">11:41 PM</span>
+      </div>
+
+      <button class="moment-trigger" aria-expanded="false">
+        Open this memory <span>↗</span>
+      </button>
+
+      <div class="moment-detail">
+        <div>
+          <p>
+            11:41 PM. A little moment that became a date worth remembering.
+          </p>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- CHAPTER 06 -->
+
+<section class="chapter" id="letter">
+  <div class="chapter-head reveal">
+    <div class="chapter-number">CHAPTER 06 · A LETTER FROM GWEN</div>
+    <h2>Some Words From Me</h2>
+    <p class="chapter-intro">
+      A little letter, written in the language that sounds most like me.
+    </p>
+  </div>
+
+  <div class="letter-stage reveal">
+
+    <button
+      class="envelope-button"
+      id="openLetter"
+      aria-label="Open the letter"
+      aria-expanded="false"
+      aria-controls="letterPaper"
+    >
+      <span class="envelope-back"></span>
+      <span class="envelope-paper-preview"></span>
+      <span class="envelope-front"></span>
+      <span class="envelope-flap"></span>
+      <span class="envelope-seal">♥</span>
+    </button>
+
+    <div class="letter-hint" id="letterHint">
+      A letter, sealed with a little love · Tap to open
+    </div>
+
+    <article class="letter-paper" id="letterPaper" aria-label="Letter from Gwen">
+
+      <h3>Dear Awais, 🥹🤍</h3>
+
+      <p>
+        Mein AP sy boht mohabbat karti hun, yeh baat AP bhi jaanty hain 😅
+        lekin kitni zyada karti hun, yeh mein kabhi bayaan nahi kar sakti.
+      </p>
+
+      <p>
+        AP mery superhero hain, meri zindagi hain, mera sab kuchh hain. ❤️
+        Mein AP ko khony sy boht darti hun, aur meri zindagi mein iss sy
+        bura mery saath kuchh nahi ho sakta, I believe.
+      </p>
+
+      <p>
+        AP boht achhy lagty hain jab AP meri har baat ko itni ehmiyat dety
+        hain, meri har chhoti chhoti baat yaad rakhty hain, meri baaton ko
+        suntay hain aur meri qadar karty hain. 🥹
+      </p>
+
+      <p>
+        Jab AP ny mujh sy Military Colleges ka test deny sy pehly puchha
+        tha, mein yaqeen bhi nahi kar saki thi k AP apni zindagi ka itna
+        ehem decision, jis par AP ka khwab depend karta hai, mujh sy
+        mashwara kar k lena chahty hain. 🫠
+      </p>
+
+      <p>
+        AP jab jab mujhy bataty hain k AP mujhy khwab mein dekhty hain,
+        mujhy boht hi zyada achha lagta hai. 😅❤️
+      </p>
+
+      <p>
+        AP jab bhi mujhy pyaar sy churail, bhootni ya kuchh bhi kehty
+        hain, tab bhi mujhy boht achha lagta hai. 😂
+      </p>
+
+      <p>
+        Mein boht heran hui thi aik baar jab AP ny Best Friends Day par
+        mujhy wish kia tha. 🫠🌷 Friendship Day par bhi 😅
+      </p>
+
+      <p>
+        AP k bina meri zindagi bilkul aisi hai jaisy bina masaly ki
+        biryani. 🥲😂💔 bilkul colourless aur pheeki 😭
+      </p>
+
+      <p>
+        AP ka hona meri zindagi ki sab sy khoobsurat baat hai. ✨
+      </p>
+
+      <p>
+        AP aik boht achhy insan hain, samajhdar bhi aur doosron ka ehsaas
+        karny waly bhi. Allah AP ka Army mein jany ka khwab zaroor poora
+        kary, aur AP ki baqi saari khwahishen bhi poori kary. Ameen. 🫡🤍
+      </p>
+
+      <p>
+        Mein AP k paas nahi hun, lekin meri Duaen har waqt AP k saath
+        hain, woh bhi bohaattttt saaarriiii 😅
+      </p>
+
+      <p>
+        AP meri khatir kuchh karna chahty hain toh please apna boht
+        khayal rakha karen aur hamesha khush raha karen. 🥺🌸
+      </p>
+
+      <p>
+        Allah AP ko sab kuchh dy aur mujhy sirf AP. 😅❤️
+      </p>
+
+      <p class="letter-signoff">
+        With love,<br>
+        Gwen 🤍
+      </p>
+
+      <p class="letter-note">
+        WRITTEN WITH A LITTLE BIT OF EVERYTHING · GWEN
+      </p>
+
+      <button class="close-letter" id="closeLetter">
+        Close the letter
+      </button>
+
+    </article>
+  </div>
+</section>
+
+<!-- CHAPTER 07 -->
+
+<section class="chapter finale" id="finale">
+
+  <svg class="finale-web" viewBox="0 0 1200 700" preserveAspectRatio="none" aria-hidden="true">
+    <path class="pink-stroke web-draw" d="M-20 530 C180 460 290 300 500 340 S850 410 1220 120"/>
+    <path class="pink-stroke web-draw" d="M500 340 L330 130 M500 340 L550 80 M500 340 L700 570 M500 340 L250 590"/>
+    <path class="teal-stroke web-draw" d="M1220 560 C1000 470 910 330 720 340 S410 300 -20 100"/>
+    <path class="teal-stroke web-draw" d="M720 340 L900 120 M720 340 L670 70 M720 340 L980 570 M720 340 L470 580"/>
+  </svg>
+
+  <div class="finale-inner">
+    <div class="chapter-number reveal">
+      CHAPTER 07 · TWO WORLDS, ONE UNIVERSE
+    </div>
+
+    <h2 class="reveal">I LOVE YOU 3000 ❤️</h2>
+
+    <p class="second-line reveal">
+      I love you more than anyone in the world.
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  WEB OF US · STORY BEYOND THE WEB · MADE OF LITTLE MEMORIES
+</footer>
+
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script type="module">
+import { animate, stagger, svg } from
+'https://cdn.jsdelivr.net/npm/animejs@4.1.3/+esm';
+
+const $ = (selector, parent = document) =>
+  parent.querySelector(selector);
+
+const $$ = (selector, parent = document) =>
+  [...parent.querySelectorAll(selector)];
+
+const reducedMotion =
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const heroPaths = $$('.hero-web path');
+const heroItems = $$('.hero-content .reveal');
+const admireItems = $$('.admire-item');
+
+document.body.classList.add('js-ready');
+
+function showAllContent() {
+  $$('.reveal').forEach(element => {
+    element.style.opacity = '1';
+    element.style.transform = 'none';
+    element.classList.add('visible');
+  });
+
+  [...heroPaths, ...$$('.finale-web path')].forEach(path => {
+    path.style.strokeDasharray = 'none';
+    path.style.strokeDashoffset = '0';
+    path.style.opacity = '1';
+  });
+}
+
+function revealElement(element, delay = 0) {
+  element.classList.add('visible');
+
+  if (window.animeAPI) {
+    animate(element, {
+      opacity: [0, 1],
+      y: [25, 0],
+      duration: 800,
+      delay,
+      ease: 'outExpo'
+    });
+  } else {
+    element.style.opacity = '1';
+    element.style.transform = 'none';
+  }
+}
+
+if (reducedMotion) {
+  showAllContent();
+} else {
+  try {
+    window.animeAPI = { animate, stagger, svg };
+    document.body.classList.add('anime-ready');
+
+    // HERO WEB ANIMATION
+
+    let heroDuration = 0;
+
+    if (heroPaths.length) {
+      animate(svg.createDrawable(heroPaths), {
+        draw: ['0 0', '0 1'],
+        duration: 1300,
+        delay: stagger(100),
+        ease: 'inOutSine'
+      });
+
+      heroDuration = 1500;
+    }
+
+    // HERO CONTENT
+
+    heroItems.forEach(element => {
+      element.style.opacity = '0';
+      element.style.transform = 'translateY(20px)';
+    });
+
+    setTimeout(() => {
+      animate(heroItems, {
+        opacity: [0, 1],
+        y: [20, 0],
+        duration: 700,
+        delay: stagger(180),
+        ease: 'outExpo'
+      });
+    }, heroDuration);
+
+    // ENTER STORY
+
+    $('#enterStory')?.addEventListener('click', () => {
+      $('#origin')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    });
+
+    // CHAPTER REVEALS
+
+    const normalReveals = $$('.reveal').filter(element =>
+      !element.closest('.hero-content') &&
+      !element.closest('.admire-grid') &&
+      !element.closest('.finale')
+    );
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+
+        revealElement(entry.target);
+        observer.unobserve(entry.target);
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -8% 0px'
+    });
+
+    normalReveals.forEach(element => {
+      revealObserver.observe(element);
+    });
+
+    // ADMIRATION ITEMS
+
+    const admireGrid = $('.admire-grid');
+
+    if (admireGrid && admireItems.length) {
+      const admireObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+
+          admireItems.forEach(item => item.classList.add('visible'));
+
+          animate(admireItems, {
+            opacity: [0, 1],
+            y: [25, 0],
+            duration: 750,
+            delay: stagger(120),
+            ease: 'outExpo'
+          });
+
+          observer.unobserve(entry.target);
+        });
+      }, {
+        threshold: 0.1
+      });
+
+      admireObserver.observe(admireGrid);
+    }
+
+    // NICKNAME INTERACTIONS
+
+    $$('.nickname').forEach(button => {
+      button.setAttribute('aria-pressed', 'false');
+
+      button.addEventListener('click', () => {
+        const panel = button.closest('.nickname-panel');
+        const note = panel?.querySelector('.nickname-note');
+
+        panel?.querySelectorAll('.nickname').forEach(item => {
+          item.classList.remove('active');
+          item.setAttribute('aria-pressed', 'false');
+        });
+
+        button.classList.add('active');
+        button.setAttribute('aria-pressed', 'true');
+
+        if (note) {
+          note.textContent = button.dataset.note || '';
+          note.style.opacity = '0';
+
+          animate(note, {
+            opacity: [0, 1],
+            y: [8, 0],
+            duration: 350,
+            ease: 'outQuad'
+          });
+        }
+
+        animate(button, {
+          scale: [.95, 1],
+          duration: 350,
+          ease: 'outBack'
+        });
+      });
+    });
+
+    // MEMORY MOMENTS
+
+    $$('.moment-trigger').forEach(button => {
+      button.addEventListener('click', () => {
+        const detail = button.nextElementSibling;
+
+        if (!detail) return;
+
+        const isOpen = detail.classList.toggle('open');
+
+        button.setAttribute('aria-expanded', String(isOpen));
+        button.innerHTML = isOpen
+          ? 'Close this memory <span>↗</span>'
+          : 'Open this memory <span>↗</span>';
+      });
+    });
+
+    // LETTER OPEN / CLOSE
+
+    const openLetter = $('#openLetter');
+    const closeLetter = $('#closeLetter');
+    const letterPaper = $('#letterPaper');
+    const letterHint = $('#letterHint');
+
+    let letterIsOpen = false;
+
+    function setLetterOpen(isOpen) {
+      if (!letterPaper || !openLetter) return;
+      if (letterIsOpen === isOpen) return;
+
+      letterIsOpen = isOpen;
+
+      openLetter.classList.toggle('open', isOpen);
+      openLetter.setAttribute('aria-expanded', String(isOpen));
+
+      if (letterHint) {
+        letterHint.textContent = isOpen
+          ? 'A little letter, written just for you.'
+          : 'A letter, sealed with a little love · Tap to open';
+      }
+
+      if (isOpen) {
+        letterPaper.classList.add('open');
+
+        const paragraphs = $$('p', letterPaper).filter(p =>
+          !p.classList.contains('letter-note')
+        );
+
+        paragraphs.forEach(p => {
+          p.style.opacity = '0';
+          p.style.transform = 'translateY(10px)';
+        });
+
+        animate(letterPaper, {
+          opacity: [0, 1],
+          y: [18, 0],
+          duration: 650,
+          ease: 'outExpo'
+        });
+
+        setTimeout(() => {
+          animate(paragraphs, {
+            opacity: [0, 1],
+            y: [10, 0],
+            duration: 550,
+            delay: stagger(85),
+            ease: 'outQuad'
+          });
+        }, 300);
+
+        setTimeout(() => {
+          letterPaper.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest'
+          });
+        }, 250);
+
+      } else {
+        letterPaper.classList.remove('open');
+        letterPaper.querySelectorAll('p').forEach(p => {
+          p.style.opacity = '';
+          p.style.transform = '';
+        });
+      }
+    }
+
+    openLetter?.addEventListener('click', () => {
+      setLetterOpen(!letterIsOpen);
+    });
+
+    closeLetter?.addEventListener('click', () => {
+      setLetterOpen(false);
+      openLetter?.focus();
+    });
+
+    // FINALE
+
+    const finale = $('#finale');
+    let finaleStarted = false;
+
+    if (finale) {
+      const finaleObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting || finaleStarted) return;
+
+          finaleStarted = true;
+          observer.unobserve(entry.target);
+
+          const finalePaths = $$('.finale-web path');
+          const chapterNumber = $('.finale .chapter-number');
+          const finaleHeading = $('.finale h2');
+          const secondLine = $('.finale .second-line');
+
+          [chapterNumber, finaleHeading, secondLine].forEach(element => {
+            if (element) {
+              element.style.opacity = '0';
+              element.style.transform = 'translateY(20px)';
+            }
+          });
+
+          if (finalePaths.length) {
+            animate(svg.createDrawable(finalePaths), {
+              draw: ['0 0', '0 1'],
+              duration: 1300,
+              delay: stagger(100),
+              ease: 'inOutSine'
+            });
+          }
+
+          // First ending reveal
+
+          setTimeout(() => {
+            if (chapterNumber) {
+              animate(chapterNumber, {
+                opacity: [0, 1],
+                y: [15, 0],
+                duration: 600,
+                ease: 'outExpo'
+              });
+            }
+
+            if (finaleHeading) {
+              animate(finaleHeading, {
+                opacity: [0, 1],
+                y: [20, 0],
+                duration: 850,
+                ease: 'outExpo'
+              });
+            }
+          }, 850);
+
+          // Second ending reveal
+
+          setTimeout(() => {
+            if (secondLine) {
+              animate(secondLine, {
+                opacity: [0, 1],
+                y: [20, 0],
+                duration: 900,
+                ease: 'outExpo'
+              });
+            }
+          }, 2200);
+        });
+      }, {
+        threshold: 0.15
+      });
+
+      finaleObserver.observe(finale);
+    }
+
+    // ACTIVE CHAPTER NAVIGATION
+
+    const navLinks = $$('.chapter-nav a');
+    const sections = navLinks
+      .map(link => $(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const activeObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+
+        navLinks.forEach(link => {
+          const active = link.getAttribute('href') === `#${entry.target.id}`;
+
+          link.classList.toggle('active', active);
+
+          if (active) {
+            link.setAttribute('aria-current', 'location');
+          } else {
+            link.removeAttribute('aria-current');
+          }
+        });
+      });
+    }, {
+      rootMargin: '-25% 0px -60% 0px',
+      threshold: 0
+    });
+
+    sections.forEach(section => activeObserver.observe(section));
+
+  } catch (error) {
+    console.error('Animation initialization failed:', error);
+    showAllContent();
+  }
+}
+</script>
+
+<!-- ENTRY GATE INTERACTION -->
+
+<script>
+(() => {
+  const gate = document.getElementById('entryGate');
+  const form = document.getElementById('gateForm');
+  const input = document.getElementById('gateAnswer');
+  const message = document.getElementById('gateMessage');
+  const submit = document.getElementById('gateSubmit');
+  const site = document.getElementById('siteShell');
+
+  const acceptedAnswers = new Set([
+    'Gwen',
+    'gwen',
+    'My Gwen',
+    'Faria',
+    'faria',
+    'faari'
+  ]);
+
+  document.body.style.overflow = 'hidden';
+
+  input.focus();
+
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+
+    if (acceptedAnswers.has(input.value)) {
+      message.textContent = 'Connection established. 🕸️';
+      message.className = 'gate-message success';
+
+      input.disabled = true;
+      submit.disabled = true;
+
+      gate.classList.add('success');
+
+      setTimeout(() => {
+        site.classList.add('unlocked');
+        document.body.style.overflow = '';
+        gate.classList.add('hidden');
+
+        window.scrollTo(0, 0);
+
+        setTimeout(() => {
+          gate.remove();
+        }, 850);
+
+      }, 1550);
+
+    } else {
+      message.textContent = 'Hmm... someone needs to think again. 🥹';
+      message.className = 'gate-message error';
+
+      input.value = '';
+      input.focus();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
